@@ -4,22 +4,24 @@
  Author: Daniel Córdova A.
 """
 
-from app import app
 import json
+
 from flask import abort
 from flask import request
-from flask import jsonify
+
+from app import app
 from ..utils import json_utils
 
-todo_list = ['{"id": 1, "title": "first", "description": "description"}']
+todo_list = []
+
+
+# todo_list = ['{"id": 1, "title": "first", "description": "description"}']
 
 
 @app.route("/", methods=['GET'])
 def get_all_todos():
     # Return Json List
-    return jsonify(
-        [json.loads(each_todo) for each_todo in todo_list]
-    )
+    return json.dumps([json.loads(each_todo) for each_todo in todo_list])
 
 
 @app.route("/" + '<string:todo_id>', methods=['GET'])
@@ -30,7 +32,7 @@ def get_todo(todo_id):
             selected_todo = element
     # If Json is None we return a 404 Error code
     if selected_todo is None:
-        return abort(404)
+        abort(404)
     return selected_todo
 
 
@@ -45,7 +47,8 @@ def post_todo():
     # Order List of id's
     id_list.sort()
     # Add id to Json
-    request.json['id'] = id_list[-1] + 1
+
+    request.json['id'] = id_list[-1] + 1 if len(id_list) > 0 else 1
     # Add json to To-Do list
     todo_list.append(str(json.dumps(request.json)))
     return json.dumps(request.json)
@@ -53,4 +56,17 @@ def post_todo():
 
 @app.route("/" + '<string:todo_id>', methods=['PUT'])
 def put_todo(todo_id):
-    return "UPDATED"
+    # Check if request is a valid JSON
+    json_utils.is_not_json_request(request)
+    selected_todo = None
+    for element in todo_list:
+        if str(json.loads(element)['id']) == todo_id:
+            selected_todo = element
+        # If Json is None we return a 404 Error code
+    if selected_todo is None:
+        abort(404)
+    todo_list.pop(todo_list.index(selected_todo))
+    # Add id to Json
+    request.json['id'] = int(todo_id)
+    todo_list.append(str(json.dumps(request.json)))
+    return json.dumps(request.json)
