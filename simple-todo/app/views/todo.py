@@ -15,9 +15,6 @@ from ..utils import json_utils
 todo_list = []
 
 
-# todo_list = ['{"id": 1, "title": "first", "description": "description"}']
-
-
 @app.route("/", methods=['GET'])
 def get_all_todos():
     # Return Json List
