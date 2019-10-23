@@ -59,7 +59,7 @@ def put_todo(todo_id):
     for element in todo_list:
         if str(json.loads(element)['id']) == todo_id:
             selected_todo = element
-        # If Json is None we return a 404 Error code
+    # If Json is None we return a 404 Error code
     if selected_todo is None:
         abort(404)
     todo_list.pop(todo_list.index(selected_todo))
@@ -67,3 +67,16 @@ def put_todo(todo_id):
     request.json['id'] = int(todo_id)
     todo_list.append(str(json.dumps(request.json)))
     return json.dumps(request.json)
+
+
+@app.route("/" + '<string:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    selected_todo = None
+    for element in todo_list:
+        if str(json.loads(element)['id']) == todo_id:
+            selected_todo = element
+    # If Json is None we return a 404 Error code
+    if selected_todo is None:
+        abort(404)
+    todo_list.pop(todo_list.index(selected_todo))
+    return ""
