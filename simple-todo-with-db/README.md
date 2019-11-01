@@ -1,7 +1,6 @@
-# Simple ToDo
+# Simple ToDo With SQLAlchemy
 
 This project contains a simple **ToDo** that uses SQLAlchemy to handle DataBase.
-
 
 * **Contents**
   * Requirements
@@ -39,6 +38,7 @@ flask db upgrade
 python run.py
 ```
 
+### Endpoints
 
 - **GET** all ToDo
 - **GET** one ToDo

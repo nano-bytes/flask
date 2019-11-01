@@ -57,9 +57,20 @@ def post_todo():
 def put_todo(todo_id):
     # Check if request is a valid JSON
     json_utils.is_not_json_request(request)
-    selected_todo = None
+    # Query a To-Do by its ID
+    selected_todo = ToDo.query.get(todo_id)
+    # If Json is None we return a 404 Error code
     if selected_todo is None:
         abort(404)
+    # Extract data from request
+    selected_todo.title = request.json.get('title')
+    selected_todo.description = request.json.get('description')
+    try:
+        # Commit db session -> this will perform "DELETE" operation on db
+        db.session.commit()
+    except IntegrityError:
+        # If something goes wrong it will abort with a 400 error code
+        abort(400)
     return json.dumps(request.json)
 
 
