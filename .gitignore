@@ -105,3 +105,9 @@ venv.bak/
 
 # IDE's
 .idea
+
+# Extra folders
+migrations/
+
+# Extra DB's
+*.db
