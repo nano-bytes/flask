@@ -19,8 +19,9 @@ class ToDo(db.Model):
     def json_dump(self):
         return dict(
             id=self.id,
-            type=self.type
+            type=self.title,
+            description=self.description
         )
 
     def __repr__(self):
-        return '<SeriesType %r>' % self.type
+        return '<ToDo Title %r>' % self.title

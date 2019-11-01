@@ -26,11 +26,11 @@ def get_all_todos():
 @app.route("/" + '<string:todo_id>', methods=['GET'])
 def get_todo(todo_id):
     # Query a To-Do by its ID
-    selected_todo = ToDo.query.get(id=todo_id)
+    selected_todo = ToDo.query.get(todo_id)
     # If Json is None we return a 404 Error code
     if selected_todo is None:
         abort(404)
-    return jsonify(selected_todo)
+    return jsonify(selected_todo.json_dump())
 
 
 @app.route("/", methods=['POST'])
@@ -39,8 +39,8 @@ def post_todo():
     json_utils.is_not_json_request(request)
     try:
         # Extract data from request
-        title = request.json.get['title']
-        description = request.json.get['description']
+        title = request.json.get('title')
+        description = request.json.get('description')
         # Create an instance of a new To-Do
         new_todo = ToDo(title=title, description=description)
         # Add To-Do to db session
@@ -66,7 +66,7 @@ def put_todo(todo_id):
 @app.route("/" + '<string:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     # Query a To-Do by its ID
-    selected_todo = ToDo.query.get(id=todo_id)
+    selected_todo = ToDo.query.get(todo_id)
     # If Json is None we return a 404 Error code
     if selected_todo is None:
         abort(404)
