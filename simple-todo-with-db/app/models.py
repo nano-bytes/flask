@@ -19,7 +19,7 @@ class ToDo(db.Model):
     def json_dump(self):
         return dict(
             id=self.id,
-            type=self.title,
+            title=self.title,
             description=self.description
         )
 
