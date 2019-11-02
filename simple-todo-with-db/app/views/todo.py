@@ -66,7 +66,7 @@ def put_todo(todo_id):
     selected_todo.title = request.json.get('title')
     selected_todo.description = request.json.get('description')
     try:
-        # Commit db session -> this will perform "DELETE" operation on db
+        # Commit db session
         db.session.commit()
     except IntegrityError:
         # If something goes wrong it will abort with a 400 error code
