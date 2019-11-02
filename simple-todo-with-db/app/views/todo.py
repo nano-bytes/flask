@@ -50,7 +50,7 @@ def post_todo():
     except IntegrityError:
         # If something goes wrong it will abort with a 400 error code
         abort(400)
-    return jsonify(request.json)
+    return jsonify(request.json), 201
 
 
 @app.route("/" + '<string:todo_id>', methods=['PUT'])
