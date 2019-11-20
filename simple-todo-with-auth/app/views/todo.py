@@ -13,9 +13,11 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.models import ToDo
 from ..utils import json_utils
+from flask_jwt_extended import jwt_required
 
 
 @app.route("/", methods=['GET'])
+@jwt_required
 def get_all_todos():
     # Query all ToDos in database
     all_todos = ToDo.query.all()
@@ -24,6 +26,7 @@ def get_all_todos():
 
 
 @app.route("/" + '<string:todo_id>', methods=['GET'])
+@jwt_required
 def get_todo(todo_id):
     # Query a To-Do by its ID
     selected_todo = ToDo.query.get(todo_id)
@@ -34,6 +37,7 @@ def get_todo(todo_id):
 
 
 @app.route("/", methods=['POST'])
+@jwt_required
 def post_todo():
     # Check if request is a valid JSON
     json_utils.is_not_json_request(request)
@@ -54,6 +58,7 @@ def post_todo():
 
 
 @app.route("/" + '<string:todo_id>', methods=['PUT'])
+@jwt_required
 def put_todo(todo_id):
     # Check if request is a valid JSON
     json_utils.is_not_json_request(request)
@@ -75,6 +80,7 @@ def put_todo(todo_id):
 
 
 @app.route("/" + '<string:todo_id>', methods=['DELETE'])
+@jwt_required
 def delete_todo(todo_id):
     # Query a To-Do by its ID
     selected_todo = ToDo.query.get(todo_id)
