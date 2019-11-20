@@ -9,7 +9,7 @@ from flask import request
 from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.models import User
-from ..utils import json_utils
+from ..utils import json_utils, password_utils
 from flask_jwt_extended import create_access_token
 
 
@@ -28,8 +28,10 @@ def register():
     else:
         # Extract password from request
         password = request.json.get('password')
+        # Get hashed password
+        hashed_password = password_utils.get_hashed_password_with_sha512(password)
         # Create a new instance of User
-        new_user = User(username=username, password=password)
+        new_user = User(username=username, password=hashed_password)
         # Add our new user to a database session
         db.session.add(new_user)
         try:
@@ -48,8 +50,10 @@ def login():
     # Extract data from request
     username = request.json.get('username')
     password = request.json.get('password')
+    # Get hashed password
+    hashed_password = password_utils.get_hashed_password_with_sha512(password)
     # Search is we have a registered user with provided username
-    logged_user = User.query.filter_by(username=username, password=password).first()
+    logged_user = User.query.filter_by(username=username, password=hashed_password).first()
     # Check if provided user exists on database
     if logged_user:
         import datetime
