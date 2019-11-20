@@ -46,5 +46,3 @@ python run.py
 - **PUT** a ToDo
 - **DELETE** a ToDo
 
-
-In order to make this service works 

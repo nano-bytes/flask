@@ -41,11 +41,12 @@ python run.py
 
 ### Endpoints
 
+- **POST** register
+- **POST** login
 - **GET** all ToDo
 - **GET** one ToDo
 - **POST** a ToDo
 - **PUT** a ToDo
 - **DELETE** a ToDo
 
-
-In order to make this service works 
+> All **ToDo** endpoints works with *bearer token* and this token is obtained after **login**
