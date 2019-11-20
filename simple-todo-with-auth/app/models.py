@@ -5,9 +5,29 @@
 """
 
 from app import db
+from uuid import uuid4
 
 
-# This class contains the model that will create a table inside our Database
+# This class contains the model that will create a table for users inside our Database
+class User(db.Model):
+    # Id is a integer and is the primary key
+    id = db.Column(db.Integer, primary_key=True, default=lambda: uuid4().hex)
+    # Username is a string value that allows 100 characters is indexed and also is primary key
+    username = db.Column(db.Text, primary_key=True)
+    # Password is a string value that allows 100 characters is indexed and not allowed to be empty
+    password = db.Column(db.Text, index=True, nullable=False)
+
+    def json_dump(self):
+        return dict(
+            id=self.id,
+            username=self.username
+        )
+
+    def __repr__(self):
+        return '<User Name%r>' % self.username
+
+
+# This class contains the model that will create a table for To-Do's inside our Database
 class ToDo(db.Model):
     # Id is a integer and is the primary key
     id = db.Column(db.Integer, primary_key=True)

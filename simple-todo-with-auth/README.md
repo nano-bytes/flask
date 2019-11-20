@@ -13,6 +13,7 @@ This micro-service needs the following requirements to work:
 >* Flask
 >* Flask-SQLAlchemy
 >* Flask-Migrate
+>* Flask-JWT-Extended
 
 ### Deploy
 To deploy this project it's necessary to create DB and it's tables before running the application, the following code would
