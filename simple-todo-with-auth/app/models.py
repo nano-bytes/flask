@@ -2,6 +2,7 @@
 # Models for Series MicroService
 """
  Author: Daniel Córdova A.
+ Author: Paul Rodríguez-Ch.
 """
 
 from app import db
@@ -31,6 +32,8 @@ class User(db.Model):
 class ToDo(db.Model):
     # Id is a integer and is the primary key
     id = db.Column(db.Integer, primary_key=True)
+    # User id is a integer and is the foreign key of the user model
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # Title is a string value that allows 100 characters is indexed and not allowed to be empty
     title = db.Column(db.String(100), index=True, nullable=False)
     # Description is a string value that allows 400 characters is indexed and is allowed to be empty
@@ -39,6 +42,7 @@ class ToDo(db.Model):
     def json_dump(self):
         return dict(
             id=self.id,
+            user_id=self.user_id,
             title=self.title,
             description=self.description
         )
