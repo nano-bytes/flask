@@ -101,7 +101,7 @@ def logout():
 # Endpoint for revoking the current users refresh token
 @app.route('/revoke', methods=['DELETE'])
 @jwt_refresh_token_required
-def logout2():
+def revoke_user_token():
     jti = get_raw_jwt()['jti']
     blacklist.add(jti)
     return jsonify({"msg": "Successfully revoked"}), 200
